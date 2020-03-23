@@ -3,13 +3,21 @@ import './App.css';
 import App from "./App";
 
 class TodoListHeader extends React.Component {
+
+        newTaskTitleRef = React.createRef();
+
+    onAddTaskClick = () => {
+        let newText = this.newTaskTitleRef.current.value;
+        this.newTaskTitleRef.current.value = "";
+        this.props.addTask(newText);
+    };
     render = () => {
         return (
             <div className="todoList-header">
                 <h3 className="todoList-header__title">What to Learn</h3>
                 <div className="todoList-newTaskForm">
-                    <input type="text" placeholder="New task name"/>
-                    <button>Add</button>
+                    <input type="text" placeholder="New task name" ref={this.newTaskTitleRef}/>
+                    <button onClick={this.onAddTaskClick}>Add</button>
                 </div>
             </div>
         );

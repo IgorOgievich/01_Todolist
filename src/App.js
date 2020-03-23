@@ -9,51 +9,64 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.newTaskTitleRef = React.createRef();
-
     }
+
     state = {
-        tasks:[
-            {title: "JS", isDone: true, priority:"medium"},
-            {title: "HTML", isDone: false, priority:"low"},
-            {title: "Css", isDone: true, priority:"low"},
-            {title: "React", isDone: false, priority:"low"}
+        tasks: [
+            {title: "JS", isDone: true, priority: "medium"},
+            {title: "HTML", isDone: false, priority: "low"},
+            {title: "Css", isDone: true, priority: "low"},
+            {title: "React", isDone: false, priority: "low"}
         ],
-    filterValue: "All"
+        filterValue: "All"
 
     };
-    onAddTaskClick = () => {
-        let newText = this.newTaskTitleRef.current.value;
-        let newTask ={ title: newText,isDone: true, priority:"medium"};
+    addTask = (newText) => {
+        let newTask = {
+            title: newText, isDone: false, priority: "low"
+        };
         let newTasks = [...this.state.tasks, newTask];
         this.setState({
             tasks: newTasks
-        });
-        this.newTaskTitleRef.current.value = "";
+        })
     };
 
-
-    // tasks = [
-    //     {title: "JS", isDone: true, priority:"medium"},
-    //     {title: "HTML", isDone: false, priority:"low"},
-    //     {title: "Css", isDone: true, priority:"low"},
-    //     {title: "React", isDone: false, priority:"low"}
-    // ];
-    // filterValue = "Completed";
-
+    changeFilter = (newFilterValue) => {
+        this.setState({
+            filterValue: newFilterValue
+        });
+    };
+        changeStatus = (task, isDone) => {
+      let newTasks= this.state.tasks.map (t => {
+          if (t != task) {
+              return t;
+          }
+          else  {
+              return {...t, isDone: isDone};
+          }
+      });
+        this.setState({
+            tasks: newTasks
+        })
+    };
     render = () => {
         return (
             <div className="App">
                 <div className="todoList">
-                    {/*<TodoListHeader/>*/}
-                    <div className="todoList-header">
-                        <h3 className="todoList-header__title">What to Learn</h3>
-                        <div className="todoList-newTaskForm">
-                            <input ref={this.newTaskTitleRef} type="text" placeholder="New task name"/>
-                            <button onClick={ this.onAddTaskClick} >  Add</button>
-                        </div>
-                    </div>
-                    <TodoListTasks tasks={this.state.tasks}/>
-                    <TodoListFooter filterValue ={this.state.filterValue}/>
+                    <TodoListHeader addTask = {this.addTask}/>
+                    <TodoListTasks changeStatus={this.changeStatus} tasks={this.state.tasks.filter(t => {
+                        if (this.state.filterValue === "All"){
+                            return true;
+                        }
+                        if (this.state.filterValue === "Completed"){
+                            return t.isDone === true;
+                        }
+                        if (this.state.filterValue === "Active"){
+                            return t.isDone === false;
+                        }
+                    })}/>
+                    <TodoListFooter changeFilter={this.changeFilter}
+                                    filterValue={this.state.filterValue}/>
                 </div>
             </div>
         );
