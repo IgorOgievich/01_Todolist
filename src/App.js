@@ -38,7 +38,7 @@ class App extends React.Component {
     };
         changeStatus = (task, isDone) => {
       let newTasks= this.state.tasks.map (t => {
-          if (t != task) {
+          if (t !== task) {
               return t;
           }
           else  {
