@@ -1,11 +1,11 @@
-.App {
+/*.App {*/
 
-}
+/*}*/
 
-.todoList {
-  width: 500px;
-  margin: 0 auto;
-}
+/*.todoList {*/
+/*  width: 500px;*/
+/*  margin: 0 auto;*/
+/*}*/
 
 .todoList > div {
   padding: 10px;
@@ -24,5 +24,17 @@
 .todoList-task.done {
   opacity: 0.5;
 }
+
+
+
+.App {
+  display: flex;
+  flex-direction: row;
+}
+
+.todoList {
+  width: 300px;
+}
+
 
 
